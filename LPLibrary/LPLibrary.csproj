@@ -15,9 +15,4 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataAccess\DataManagement\" />
-    <Folder Include="Respository\" />
-  </ItemGroup>
-
 </Project>
