@@ -233,5 +233,5 @@ public partial class LibraryManagementContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
-    private partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
