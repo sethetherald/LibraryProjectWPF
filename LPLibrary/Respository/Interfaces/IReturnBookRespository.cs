@@ -1,6 +1,6 @@
 ﻿using LPLibrary.DataAccess.Models;
 
-namespace LPLibrary.Respository
+namespace LPLibrary.Respository.Interfaces
 {
     internal interface IReturnBookRespository
     {
