@@ -1,4 +1,5 @@
-﻿using LPLibrary.DataAccess.Models;
+﻿using LibraryProjectWPF.ViewModels;
+using LPLibrary.DataAccess.Models;
 using System.Windows;
 
 namespace LibraryProjectWPF
@@ -13,8 +14,10 @@ namespace LibraryProjectWPF
         public MainWindow(Account account, Librarian librarian)
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
             CurrentAccount = account;
-            tbTest.Text = "Hello " + librarian.LibrarianName;
+            tbWelcome.Text = "Hello " + librarian.LibrarianName;
+            if (CurrentAccount.Role == 0) btnAccount.Visibility = Visibility.Hidden;
         }
     }
 }

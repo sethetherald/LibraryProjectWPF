@@ -3,18 +3,44 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:LibraryProjectWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="MainWindow"
-    Width="800"
-    Height="450"
+    Title="Library Management"
+    Width="500"
+    Height="300"
     mc:Ignorable="d">
-    <Grid>
+    <StackPanel>
         <TextBlock
-            x:Name="tbTest"
+            Name="tbWelcome"
+            Margin="8"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            FontSize="50"
-            Text="Test Main Window" />
-    </Grid>
+            FontSize="15"
+            Text="Welcome" />
+
+        <Button
+            Name="btnBook"
+            Margin="8,8,8,0"
+            Command="{Binding BookManagerCommand}"
+            Content="Manage book" />
+        <Button
+            Name="btnReader"
+            Margin="8,8,8,0"
+            Command="{Binding ReaderManagerCommand}"
+            Content="Manage reader" />
+        <Button
+            Name="btnLend"
+            Margin="8,8,8,0"
+            Command="{Binding LendBookManagerCommand}"
+            Content="Lend book" />
+        <Button
+            Name="btnReturn"
+            Margin="8,8,8,0"
+            Command="{Binding ReturnBookManagerCommand}"
+            Content="Return book" />
+        <Button
+            Name="btnAccount"
+            Margin="8,8,8,0"
+            Command="{Binding AccountManagerCommand}"
+            Content="Manage account" />
+    </StackPanel>
 </Window>
