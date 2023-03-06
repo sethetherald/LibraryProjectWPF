@@ -1,6 +1,6 @@
 ﻿namespace LPLibrary.DataAccess.Models
 {
-    internal class BookManagementModel
+    public class BookManagementModel
     {
         public int TitleId { get; set; }
         public string? BookId { get; set; }

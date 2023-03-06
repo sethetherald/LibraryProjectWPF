@@ -2,14 +2,22 @@
     x:Class="LibraryProjectWPF.Views.WindowLendBook"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:LibraryProjectWPF.Ultilities.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:LibraryProjectWPF.Views"
     xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:LibraryProjectWPF.ViewModels"
     Title="WindowLendBook"
     Width="1200"
     Height="680"
     mc:Ignorable="d">
+    <!--<Window.DataContext>
+        <viewmodels:LendBookViewModel />
+    </Window.DataContext>-->
+    <Window.Resources>
+        <converter:LendTicketConverter x:Key="Converter" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="350" />
@@ -26,7 +34,8 @@
                         <RadioButton
                             Name="rbReaderCard"
                             Margin="8,8,4,8"
-                            Content="Reader Card" />
+                            Content="Reader Card"
+                            IsChecked="True" />
                         <RadioButton
                             Name="rbReaderName"
                             Margin="4,8,8,8"
@@ -42,19 +51,26 @@
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <DataGrid Height="525" />
+            <DataGrid
+                Name="dgReaders"
+                Height="525"
+                HorizontalScrollBarVisibility="Auto"
+                IsReadOnly="True"
+                ItemsSource="{Binding Readers}"
+                SelectedIndex="0" />
         </StackPanel>
         <StackPanel
             Grid.Column="1"
             Margin="8,8,0,8"
             Orientation="Vertical">
-            <GroupBox Header="Reader Info Search">
+            <GroupBox Header="Book Info Search">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <RadioButton
                             Name="rbBookId"
                             Margin="8,8,4,8"
-                            Content="Book Id" />
+                            Content="Book Id"
+                            IsChecked="True" />
                         <RadioButton
                             Name="rbBookName"
                             Margin="4,8,8,8"
@@ -70,11 +86,17 @@
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <DataGrid Height="525" />
+            <DataGrid
+                Name="dgBooks"
+                Height="525"
+                HorizontalScrollBarVisibility="Auto"
+                IsReadOnly="True"
+                ItemsSource="{Binding Books}"
+                SelectedIndex="0" />
         </StackPanel>
         <StackPanel
             Grid.Column="2"
-            Margin="8,8,0,8"
+            Margin="8,8,8,8"
             Orientation="Vertical">
             <GroupBox Header="Lend Ticket Info">
                 <Grid>
@@ -83,30 +105,56 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
                     </Grid.RowDefinitions>
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="0"
+                        VerticalAlignment="Center"
                         Text="Book ID" />
-                    <TextBox Grid.Row="0" Grid.Column="1" />
+                    <TextBox
+                        Name="tbBookId"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        DataContext="{Binding ElementName=dgBooks, Path=SelectedItem}"
+                        Text="{Binding Path=BookId, Mode=OneWay}" />
                     <TextBlock
                         Grid.Row="1"
                         Grid.Column="0"
+                        VerticalAlignment="Center"
                         Text="Reader ID" />
-                    <TextBox Grid.Row="1" Grid.Column="1" />
+                    <TextBox
+                        Name="tbReaderId"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        DataContext="{Binding ElementName=dgReaders, Path=SelectedItem}"
+                        Text="{Binding Path=CardNumber, Mode=OneWay}" />
                     <TextBlock
                         Grid.Row="2"
                         Grid.Column="0"
+                        VerticalAlignment="Center"
                         Text="Expected Return Date" />
-                    <DatePicker Grid.Row="2" Grid.Column="1" />
+                    <DatePicker
+                        Name="dpReturnDate"
+                        Grid.Row="2"
+                        Grid.Column="1" />
                 </Grid>
             </GroupBox>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Margin="8" Content="Create Ticket" />
-                <Button Margin="8" Content="Refresh" />
+                <Button
+                    Margin="8"
+                    Command="{Binding CreateTicketCommand}"
+                    Content="Create Ticket">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource Converter}">
+                            <Binding ElementName="tbBookId" Path="Text" />
+                            <Binding ElementName="tbReaderId" Path="Text" />
+                            <Binding ElementName="dpReturnDate" Path="SelectedDate" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
             </StackPanel>
         </StackPanel>
     </Grid>

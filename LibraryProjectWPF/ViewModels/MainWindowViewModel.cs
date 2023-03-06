@@ -1,4 +1,6 @@
 ﻿using LibraryProjectWPF.Ultilities;
+using LibraryProjectWPF.Views;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -13,7 +15,7 @@ namespace LibraryProjectWPF.ViewModels
         public ICommand ReturnBookManagerCommand { get; set; }
         public ICommand AccountManagerCommand { get; set; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(int librarianId)
         {
             BookManagerCommand = new RelayCommand<object>(
                 (_) => true,
@@ -27,7 +29,7 @@ namespace LibraryProjectWPF.ViewModels
 
             LendBookManagerCommand = new RelayCommand<object>(
                 (_) => true,
-                (_) => LendBookManager()
+                (_) => LendBookManager(librarianId)
                 );
 
             ReturnBookManagerCommand = new RelayCommand<object>(
@@ -51,9 +53,10 @@ namespace LibraryProjectWPF.ViewModels
             MessageBox.Show("Show reader manager");
         }
 
-        private void LendBookManager()
+        private void LendBookManager(int librarianId)
         {
-            MessageBox.Show("Show lend book manager");
+            WindowLendBook lendBook = new(librarianId);
+            lendBook.ShowDialog();
         }
 
         private void ReturnBookManager()

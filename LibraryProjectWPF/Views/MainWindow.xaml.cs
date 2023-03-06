@@ -14,7 +14,7 @@ namespace LibraryProjectWPF
         public MainWindow(Account account, Librarian librarian)
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+            DataContext = new MainWindowViewModel(librarian.LibrarianId);
             CurrentAccount = account;
             tbWelcome.Text = "Hello " + librarian.LibrarianName;
             if (CurrentAccount.Role == 0) btnAccount.Visibility = Visibility.Hidden;
