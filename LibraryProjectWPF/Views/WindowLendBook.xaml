@@ -34,11 +34,15 @@
                         <RadioButton
                             Name="rbReaderCard"
                             Margin="8,8,4,8"
+                            Command="{Binding SetReaderSearchModeCommand}"
+                            CommandParameter="Card"
                             Content="Reader Card"
                             IsChecked="True" />
                         <RadioButton
                             Name="rbReaderName"
                             Margin="4,8,8,8"
+                            Command="{Binding SetReaderSearchModeCommand}"
+                            CommandParameter="Name"
                             Content="Reader Name" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -46,8 +50,11 @@
                             Name="tbReaderSearch"
                             Width="200"
                             Margin="8"
-                            Text="" />
-                        <Button Name="btnReaderSearch" Content="Search" />
+                            Text="{Binding ReaderSearchString, Mode=TwoWay}" />
+                        <Button
+                            Name="btnReaderSearch"
+                            Command="{Binding SearchReaderCommand}"
+                            Content="Search" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -69,11 +76,15 @@
                         <RadioButton
                             Name="rbBookId"
                             Margin="8,8,4,8"
+                            Command="{Binding SetBookSearchModeCommand}"
+                            CommandParameter="Id"
                             Content="Book Id"
                             IsChecked="True" />
                         <RadioButton
                             Name="rbBookName"
                             Margin="4,8,8,8"
+                            Command="{Binding SetBookSearchModeCommand}"
+                            CommandParameter="Name"
                             Content="Book Name" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -81,8 +92,11 @@
                             Name="tbBookSearch"
                             Width="200"
                             Margin="8"
-                            Text="" />
-                        <Button Name="btnBookSearch" Content="Search" />
+                            Text="{Binding BookSearchString, Mode=TwoWay}" />
+                        <Button
+                            Name="btnBookSearch"
+                            Command="{Binding SearchBookCommand}"
+                            Content="Search" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -107,7 +121,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="24" />
                         <RowDefinition Height="24" />
-                        <RowDefinition Height="24" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock
                         Grid.Row="0"
@@ -155,6 +169,8 @@
                         </MultiBinding>
                     </Button.CommandParameter>
                 </Button>
+
+                <Button Command="{Binding RefreshCommand}" Content="Refresh" />
             </StackPanel>
         </StackPanel>
     </Grid>

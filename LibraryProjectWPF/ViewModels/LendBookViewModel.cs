@@ -7,15 +7,39 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 
 namespace LibraryProjectWPF.ViewModels
 {
-    internal class LendBookViewModel
+    internal class LendBookViewModel : INotifyPropertyChanged
     {
+        #region INotifyPropertyChanged Implementation
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion INotifyPropertyChanged Implementation
+
+        #region Commands
+
         public ICommand CreateTicketCommand { get; set; }
+        public ICommand SetReaderSearchModeCommand { get; set; }
+        public ICommand SearchReaderCommand { get; set; }
+        public ICommand SetBookSearchModeCommand { get; set; }
+        public ICommand SearchBookCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
+
+        #endregion Commands
+
+        #region Fields
 
         private readonly int _librarianId;
         private IReaderRespository _readerRespository = new ReaderRespository();
@@ -26,23 +50,60 @@ namespace LibraryProjectWPF.ViewModels
         private IAuthorBookRespository _authorBookRespository = new AuthorBookRespository();
         private ILendBookRespository _lendBookRespository = new LendBookRespository();
 
+        public string ReaderSearchMode { get; set; }
+        public string BookSearchMode { get; set; }
+        public string ReaderSearchString { get; set; }
+        public string BookSearchString { get; set; }
+
         private ObservableCollection<BookManagementModel> _books;
         private ObservableCollection<Reader> _readers;
 
-        public ObservableCollection<BookManagementModel> Books => _books;
+        public ObservableCollection<BookManagementModel> Books
+        {
+            get { return _books; }
+            set { _books = value; OnPropertyChanged(nameof(Books)); }
+        }
 
-        public ObservableCollection<Reader> Readers => _readers;
+        public ObservableCollection<Reader> Readers
+        {
+            get { return _readers; }
+            set { _readers = value; OnPropertyChanged(nameof(Readers)); }
+        }
+
+        #endregion Fields
 
         public LendBookViewModel(int librarianId)
         {
             _librarianId = librarianId;
-            InitializeBooks();
-            InitializeReaders();
+
+            SetReaderSearchMode("Card");
+            SetBookSearchMode("Id");
+
+            LoadData();
 
             CreateTicketCommand = new RelayCommand<LendTicketConverterModel>(
                 (ticket) => ticket != null,
-                (ticket) => CreateTicket(ticket)
-                );
+                (ticket) => CreateTicket(ticket));
+
+            SearchReaderCommand = new RelayCommand<object>(
+                (_) => true,
+                (_) => SearchReader());
+
+            SearchBookCommand = new RelayCommand<object>(
+                (_) => true,
+                (_) => SearchBook());
+
+            RefreshCommand = new RelayCommand<object>(
+                (_) => true,
+                (_) => LoadData());
+
+            SetReaderSearchModeCommand = new RelayCommand<string>(
+                (mode) => !mode.IsNullOrEmpty(),
+                (mode) => SetReaderSearchMode(mode));
+
+            SetBookSearchModeCommand = new RelayCommand<string>(
+                (mode) => !mode.IsNullOrEmpty(),
+                (mode) => SetBookSearchMode(mode));
         }
 
         private void InitializeBooks()
@@ -86,13 +147,19 @@ namespace LibraryProjectWPF.ViewModels
                                                   NumberOfPages = bookInfo.NumberOfPages,
                                                   Condition = condition,
                                               }).ToList();
-            _books = new ObservableCollection<BookManagementModel>(temp);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            Books = new ObservableCollection<BookManagementModel>(temp)
+            );
         }
 
         private void InitializeReaders()
         {
             List<Reader> temp = _readerRespository.GetReaders();
-            _readers = new ObservableCollection<Reader>(temp);
+
+            Application.Current.Dispatcher.Invoke(() =>
+                Readers = new ObservableCollection<Reader>(temp)
+            );
         }
 
         private void CreateTicket(LendTicketConverterModel ticket)
@@ -117,14 +184,66 @@ namespace LibraryProjectWPF.ViewModels
                 }, bookToLend);
 
                 MessageBox.Show("Create ticket successfully!");
-                ReloadList();
+                LoadData();
             }
         }
 
-        private void ReloadList()
+        private void SetReaderSearchMode(string parameter) => ReaderSearchMode = parameter;
+
+        private void SetBookSearchMode(string parameter) => BookSearchMode = parameter;
+
+        private void SearchReader()
         {
-            InitializeReaders();
+            switch (ReaderSearchMode)
+            {
+                case "Card":
+                    if (!ReaderSearchString.IsNullOrEmpty() && int.TryParse(ReaderSearchString, out int value))
+                    {
+                        Application.Current.Dispatcher.Invoke(
+                            () => Readers = new ObservableCollection<Reader>(Readers.Where(x => x.CardNumber == value))
+                            );
+                    }
+                    break;
+
+                case "Name":
+                    if (!ReaderSearchString.IsNullOrEmpty())
+                    {
+                        Application.Current.Dispatcher.Invoke(
+                            () => Readers = new ObservableCollection<Reader>(Readers.Where(x => x.FullName.Contains(ReaderSearchString)))
+                            );
+                    }
+                    break;
+            }
+        }
+
+        private void SearchBook()
+        {
+            switch (BookSearchMode)
+            {
+                case "Id":
+                    if (!BookSearchString.IsNullOrEmpty() && int.TryParse(BookSearchString, out int _))
+                    {
+                        Application.Current.Dispatcher.Invoke(
+                            () => Books = new ObservableCollection<BookManagementModel>(Books.Where(x => x.BookId.Equals(BookSearchString)))
+                            );
+                    }
+                    break;
+
+                case "Name":
+                    if (!BookSearchString.IsNullOrEmpty())
+                    {
+                        Application.Current.Dispatcher.Invoke(
+                            () => Books = new ObservableCollection<BookManagementModel>(Books.Where(x => x.Title.Contains(BookSearchString)))
+                            );
+                    }
+                    break;
+            }
+        }
+
+        private void LoadData()
+        {
             InitializeBooks();
+            InitializeReaders();
         }
     }
 }
