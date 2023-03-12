@@ -1,6 +1,6 @@
 ﻿namespace LPLibrary.DataAccess.Models
 {
-    internal class AccountManagementModel
+    public class AccountManagementModel
     {
         public int Id { get; set; }
         public string? UserName { get; set; }

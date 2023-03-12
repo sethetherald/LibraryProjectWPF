@@ -1,4 +1,4 @@
-﻿using LibraryProjectWPF.Ultilities;
+﻿using LibraryProjectWPF.Utilities;
 using LibraryProjectWPF.Views;
 using LPLibrary.DataAccess.Models;
 using LPLibrary.Respository.Classes;

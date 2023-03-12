@@ -1,4 +1,4 @@
-﻿namespace LibraryProjectWPF.Ultilities
+﻿namespace LibraryProjectWPF.Utilities
 {
     internal class ComboBoxModel
     {
