@@ -11,10 +11,9 @@
     Title="WindowLendBook"
     Width="1200"
     Height="680"
+    d:DataContext="{d:DesignInstance Type=viewmodels:LendBookViewModel}"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <!--<Window.DataContext>
-        <viewmodels:LendBookViewModel />
-    </Window.DataContext>-->
     <Window.Resources>
         <converter:LendTicketConverter x:Key="Converter" />
     </Window.Resources>

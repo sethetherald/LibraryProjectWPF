@@ -1,4 +1,5 @@
-﻿using LPLibrary.DataAccess.Models;
+﻿using LibraryProjectWPF.ViewModels;
+using LPLibrary.DataAccess.Models;
 using System.Windows;
 
 namespace LibraryProjectWPF.Views
@@ -11,6 +12,7 @@ namespace LibraryProjectWPF.Views
         public WindowReturnBookSub(int librarianId, ReturnBookModel returnBook)
         {
             InitializeComponent();
+            DataContext = new ReturnBookSubViewModel(this, librarianId, returnBook);
         }
     }
 }

@@ -7,9 +7,12 @@
     xmlns:local="clr-namespace:LibraryProjectWPF.Views"
     xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:LibraryProjectWPF.ViewModels"
     Title="Login"
     Width="300"
     Height="150"
+    d:DataContext="{d:DesignInstance Type=viewmodels:LoginViewModel}"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
         <converter:AccountConverter x:Key="Converter" />
@@ -37,7 +40,7 @@
                 Name="txtEmail"
                 Grid.Row="0"
                 Grid.Column="1"
-                material:HintAssist.Hint="Email"
+                material:HintAssist.Hint="Username"
                 material:TextFieldAssist.HasClearButton="True" />
 
             <material:PackIcon

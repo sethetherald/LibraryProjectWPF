@@ -7,6 +7,7 @@
     Title="Library Management"
     Width="500"
     Height="300"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <StackPanel>
         <TextBlock

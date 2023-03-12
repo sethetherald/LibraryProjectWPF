@@ -148,7 +148,7 @@ namespace LibraryProjectWPF.ViewModels
         {
             if (CurrentlySelectedReturn != null)
             {
-                WindowReturnBookSub sub = new WindowReturnBookSub(_librarianId, CurrentlySelectedReturn);
+                WindowReturnBookSub sub = new(_librarianId, CurrentlySelectedReturn);
                 sub.ShowDialog();
             }
         }
