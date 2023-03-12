@@ -194,6 +194,7 @@ namespace LibraryProjectWPF.ViewModels
 
         private void SearchReader()
         {
+            InitializeReaders();
             switch (ReaderSearchMode)
             {
                 case "Card":
@@ -209,7 +210,7 @@ namespace LibraryProjectWPF.ViewModels
                     if (!ReaderSearchString.IsNullOrEmpty())
                     {
                         Application.Current.Dispatcher.Invoke(
-                            () => Readers = new ObservableCollection<Reader>(Readers.Where(x => x.FullName.Contains(ReaderSearchString)))
+                            () => Readers = new ObservableCollection<Reader>(Readers.Where(x => x.FullName.Contains(ReaderSearchString, StringComparison.OrdinalIgnoreCase)))
                             );
                     }
                     break;
@@ -218,6 +219,7 @@ namespace LibraryProjectWPF.ViewModels
 
         private void SearchBook()
         {
+            InitializeBooks();
             switch (BookSearchMode)
             {
                 case "Id":
