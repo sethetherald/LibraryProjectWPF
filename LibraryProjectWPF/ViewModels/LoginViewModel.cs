@@ -1,5 +1,5 @@
-﻿using LibraryProjectWPF.Ultilities;
-using LibraryProjectWPF.Ultilities.Converter;
+﻿using LibraryProjectWPF.Utilities;
+using LibraryProjectWPF.Utilities.Converter;
 using LibraryProjectWPF.Views;
 using LPLibrary.DataAccess.Models;
 using LPLibrary.Respository.Classes;

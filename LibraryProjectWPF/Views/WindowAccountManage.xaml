@@ -1,0 +1,117 @@
+﻿<Window
+    x:Class="LibraryProjectWPF.Views.WindowAccountManage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:LibraryProjectWPF.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utilities="clr-namespace:LibraryProjectWPF.Utilities"
+    xmlns:viewmodels="clr-namespace:LibraryProjectWPF.ViewModels"
+    Title="WindowAccountManage"
+    Width="1200"
+    Height="600"
+    d:DataContext="{d:DesignInstance Type=viewmodels:AccountManageViewModel}"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal">
+        <DataGrid
+            Width="820"
+            Margin="8"
+            IsReadOnly="True"
+            ItemsSource="{Binding Accounts}"
+            SelectedItem="{Binding CurrentSelectedAccount}" />
+        <StackPanel Margin="8" Orientation="Vertical">
+            <GroupBox Header="Librarian Information">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Content="Librarian Id" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{Binding LibrarianId}" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Content="Account" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{Binding Username}" />
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Content="Librarian Name" />
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{Binding Name}" />
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Content="Email" />
+                    <TextBox
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{Binding Email}" />
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Content="Password" />
+                    <PasswordBox
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        utilities:PasswordBoxHelper.BoundPassword="{Binding Password, Mode=TwoWay}"
+                        Style="{StaticResource MaterialDesignRevealPasswordBox}" />
+                    <CheckBox
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="8"
+                        HorizontalAlignment="Center"
+                        Content="Is Admin"
+                        IsChecked="{Binding IsAdmin, Mode=TwoWay}"
+                        IsEnabled="{Binding CheckBoxAdminIsEnabled, Mode=TwoWay}" />
+                </Grid>
+            </GroupBox>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="8" Content="Refresh" />
+                <Button
+                    Margin="8"
+                    Command="{Binding AddCommand}"
+                    Content="Add" />
+                <Button
+                    Margin="8"
+                    Command="{Binding UpdateCommand}"
+                    Content="Edit" />
+                <Button
+                    Margin="8"
+                    Command="{Binding DeleteCommand}"
+                    Content="Delete" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</Window>

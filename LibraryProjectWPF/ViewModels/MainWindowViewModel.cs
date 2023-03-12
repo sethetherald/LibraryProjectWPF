@@ -1,7 +1,5 @@
-﻿using LibraryProjectWPF.Ultilities;
+﻿using LibraryProjectWPF.Utilities;
 using LibraryProjectWPF.Views;
-using MaterialDesignThemes.Wpf;
-using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -39,7 +37,7 @@ namespace LibraryProjectWPF.ViewModels
 
             AccountManagerCommand = new RelayCommand<object>(
                 (_) => true,
-                (_) => AccountManager()
+                (_) => AccountManager(librarianId)
                 );
         }
 
@@ -65,9 +63,10 @@ namespace LibraryProjectWPF.ViewModels
             returnBook.ShowDialog();
         }
 
-        private void AccountManager()
+        private void AccountManager(int librarianId)
         {
-            MessageBox.Show("Show account manager");
+            WindowAccountManage accountManage = new(librarianId);
+            accountManage.ShowDialog();
         }
     }
 }

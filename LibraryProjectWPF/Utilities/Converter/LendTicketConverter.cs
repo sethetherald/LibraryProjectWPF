@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Data;
 
-namespace LibraryProjectWPF.Ultilities.Converter
+namespace LibraryProjectWPF.Utilities.Converter
 {
     internal class LendTicketConverter : IMultiValueConverter
     {
