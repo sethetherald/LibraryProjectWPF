@@ -34,7 +34,7 @@ namespace LibraryProjectWPF.ViewModels
 
             ReturnBookManagerCommand = new RelayCommand<object>(
                 (_) => true,
-                (_) => ReturnBookManager()
+                (_) => ReturnBookManager(librarianId)
                 );
 
             AccountManagerCommand = new RelayCommand<object>(
@@ -59,9 +59,10 @@ namespace LibraryProjectWPF.ViewModels
             lendBook.ShowDialog();
         }
 
-        private void ReturnBookManager()
+        private void ReturnBookManager(int librarianId)
         {
-            MessageBox.Show("Show return book manager");
+            WindowReturnBook returnBook = new(librarianId);
+            returnBook.ShowDialog();
         }
 
         private void AccountManager()
