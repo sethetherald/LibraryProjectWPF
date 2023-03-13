@@ -128,6 +128,14 @@ namespace LibraryProjectWPF.ViewModels
             DeleteTitleCommand = new RelayCommand<object>(
                 (_) => SelectedBookTitleId != 0,
                 (_) => DeleteTitle());
+
+            AddBookCommand = new RelayCommand<object>(
+                (_) => SelectedBookTitleId != 0,
+                (_) => AddBooks());
+
+            DeleteBookCommand = new RelayCommand<object>(
+                (_) => SelectedBookTitleId != 0 && !SelectedBookBookId.IsNullOrEmpty(),
+                (_) => DeleteBook());
         }
 
         private void InitializeBooks()
@@ -247,6 +255,23 @@ namespace LibraryProjectWPF.ViewModels
 
                 InitializeBooks();
                 SelectedBook = new();
+            }
+        }
+
+        private void AddBooks()
+        {
+            WindowAddBook addBook = new(SelectedBookTitleId);
+            addBook.ShowDialog();
+        }
+
+        private void DeleteBook()
+        {
+            var result = MessageBox.Show("Do you really want to delete this book?", "Confirmation", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                _bookRespository.DeleteBook(int.Parse(SelectedBookBookId), SelectedBookTitleId);
+                MessageBox.Show("Book deleted successfully!");
+                InitializeBooks();
             }
         }
     }
