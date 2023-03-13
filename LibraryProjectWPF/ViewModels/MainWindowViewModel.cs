@@ -43,7 +43,8 @@ namespace LibraryProjectWPF.ViewModels
 
         private void BookManager()
         {
-            MessageBox.Show("Show book manager");
+            WindowBookManage bookManage = new();
+            bookManage.ShowDialog();
         }
 
         private void ReaderManager()
