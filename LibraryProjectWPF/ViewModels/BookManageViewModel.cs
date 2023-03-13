@@ -124,6 +124,10 @@ namespace LibraryProjectWPF.ViewModels
             EditTitleCommand = new RelayCommand<object>(
                 (_) => SelectedBookTitleId != 0,
                 (_) => EditTitle());
+
+            DeleteTitleCommand = new RelayCommand<object>(
+                (_) => SelectedBookTitleId != 0,
+                (_) => DeleteTitle());
         }
 
         private void InitializeBooks()
@@ -221,6 +225,29 @@ namespace LibraryProjectWPF.ViewModels
         {
             WindowTitleManage titleManage = new WindowTitleManage(SelectedBookTitleId);
             titleManage.ShowDialog();
+        }
+
+        private void DeleteTitle()
+        {
+            var result = MessageBox.Show("Do you really want to delete this title and all books with this title?", "Warning", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                List<AuthorBook> authorBooksToDelete = _authorBookRespository.GetAuthorBooks(SelectedBookTitleId);
+                List<Book> booksToDelete = _bookRespository.GetBooks(SelectedBookTitleId);
+                List<BookInfo> bookInfosToDelete = _bookInfoRespository.GetBookInfos(SelectedBookTitleId);
+
+                if (booksToDelete.Count > 0)
+                {
+                    _bookRespository.DeleteBooks(booksToDelete);
+                }
+                _authorBookRespository.DeleteAuthorBook(authorBooksToDelete);
+                _bookInfoRespository.DeleteBookInfo(bookInfosToDelete);
+
+                MessageBox.Show("Deleted Successfully!");
+
+                InitializeBooks();
+                SelectedBook = new();
+            }
         }
     }
 }
