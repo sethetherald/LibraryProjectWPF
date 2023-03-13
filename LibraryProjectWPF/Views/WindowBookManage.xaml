@@ -31,11 +31,12 @@
                     <TextBox
                         Width="200"
                         Margin="8"
-                        Text="{Binding BookSearchString, Mode=TwoWay}" />
+                        Text="{Binding BookSearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <RadioButton
                         Command="{Binding SetBookSearchModeCommand}"
                         CommandParameter="Title"
-                        Content="By Title" />
+                        Content="By Title"
+                        IsChecked="True" />
                     <RadioButton
                         Command="{Binding SetBookSearchModeCommand}"
                         CommandParameter="Author"

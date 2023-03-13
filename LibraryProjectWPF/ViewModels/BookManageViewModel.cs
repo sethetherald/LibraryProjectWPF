@@ -1,4 +1,5 @@
 ﻿using LibraryProjectWPF.Utilities;
+using LibraryProjectWPF.Views;
 using LPLibrary.DataAccess.Models;
 using LPLibrary.Respository.Classes;
 using LPLibrary.Respository.Interfaces;
@@ -111,6 +112,18 @@ namespace LibraryProjectWPF.ViewModels
             SearchCommand = new RelayCommand<object>(
                 (_) => true,
                 (_) => SearchBook());
+
+            RefreshCommand = new RelayCommand<object>(
+                (_) => true,
+                (_) => InitializeBooks());
+
+            AddTitleCommand = new RelayCommand<object>(
+                (_) => true,
+                (_) => AddTitle());
+
+            EditTitleCommand = new RelayCommand<object>(
+                (_) => SelectedBookTitleId != 0,
+                (_) => EditTitle());
         }
 
         private void InitializeBooks()
@@ -196,6 +209,18 @@ namespace LibraryProjectWPF.ViewModels
                         break;
                 }
             }
+        }
+
+        private void AddTitle()
+        {
+            WindowTitleManage titleManage = new WindowTitleManage();
+            titleManage.ShowDialog();
+        }
+
+        private void EditTitle()
+        {
+            WindowTitleManage titleManage = new WindowTitleManage(SelectedBookTitleId);
+            titleManage.ShowDialog();
         }
     }
 }
