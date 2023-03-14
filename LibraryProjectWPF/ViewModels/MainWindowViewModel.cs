@@ -49,7 +49,8 @@ namespace LibraryProjectWPF.ViewModels
 
         private void ReaderManager()
         {
-            MessageBox.Show("Show reader manager");
+            WindowReaderManage readerManage = new();
+            readerManage.ShowDialog();
         }
 
         private void LendBookManager(int librarianId)
