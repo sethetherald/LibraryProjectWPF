@@ -4,19 +4,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:LibraryProjectWPF.ViewModels"
     Title="Library Management"
     Width="500"
     Height="300"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <StackPanel>
+    <StackPanel Margin="8">
         <TextBlock
-            Name="tbWelcome"
             Margin="8"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="15"
-            Text="Welcome" />
+            Text="{Binding WelcomeText}" />
 
         <Button
             Name="btnBook"
@@ -42,6 +43,7 @@
             Name="btnAccount"
             Margin="8,8,8,0"
             Command="{Binding AccountManagerCommand}"
-            Content="Manage account" />
+            Content="Manage account"
+            Visibility="{Binding ButtonVisibility}" />
     </StackPanel>
 </Window>
